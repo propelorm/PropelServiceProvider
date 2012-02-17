@@ -50,7 +50,7 @@ $app['autoloader']->registerNamespaces(array(
 
 $app->register(new Propel\Silex\PropelServiceProvider(), array(
     'propel.path'        => __DIR__.'/path/to/Propel.php',
-    'propel.config_file' => __DIR__.'/path/to/myproject-conf.php,
+    'propel.config_file' => __DIR__.'/path/to/myproject-conf.php',
     'propel.model_path'  => __DIR__.'/path/to/model/classes',
 ));
 ```
