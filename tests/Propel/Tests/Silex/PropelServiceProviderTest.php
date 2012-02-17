@@ -32,9 +32,9 @@ class PropelServiceProviderTest extends \PHPUnit_Framework_TestCase
     {
         $app = new Application();
         $app->register(new PropelServiceProvider(), array(
-            'propel.path'           =>__DIR__ . '/../../../../vendor/propel/runtime/lib',
-            'propel.config_file'    =>__DIR__ . '/PropelFixtures/build/conf/myproject-conf.php',
-            'propel.model_path'     =>__DIR__ . '/PropelFixtures/build/classes',
+            'propel.path'           => __DIR__ . '/../../../../vendor/propel/runtime/lib',
+            'propel.config_file'    => __DIR__ . '/PropelFixtures/build/conf/myproject-conf.php',
+            'propel.model_path'     => __DIR__ . '/PropelFixtures/build/classes',
         ));
 
         $this->assertTrue(class_exists('Propel'));
