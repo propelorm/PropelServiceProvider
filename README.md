@@ -1,6 +1,8 @@
 PropelServiceProvider
 =====================
 
+[![Build Status](https://secure.travis-ci.org/propelorm/PropelServiceProvider.png?branch=master)](http://travis-ci.org/propelorm/PropelServiceProvider)
+
 The *PropelServiceProvider* provides integration with [Propel](http://www.propelorm.org).
 
 Parameters
