@@ -47,7 +47,7 @@ class PropelServiceProvider implements ServiceProviderInterface
                 throw new \InvalidArgumentException(__CLASS__.': please, initialize the "propel.config_file" parameter.');
             }
 
-            $config = '/build/conf/'.substr(strstr($files[0], '-'), 1);
+            $config = './build/conf/'.substr(strstr($files[0], '-'), 1);
             chdir($currentDir);
         }
 
