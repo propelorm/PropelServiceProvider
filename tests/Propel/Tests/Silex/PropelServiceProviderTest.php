@@ -1,12 +1,11 @@
 <?php
 
-/*
- * This file is part of the Silex framework.
+/**
+ * This file is part of the PropelServiceProvider package.
+ * For the full copyright and license information, please view the LICENSE
+ * file that was distributed with this source code.
  *
- * (c) Fabien Potencier <fabien@symfony.com>
- *
- * This source file is subject to the MIT license that is bundled
- * with this source code in the file LICENSE.
+ * @license    MIT License
  */
 
 namespace Propel\Tests\Silex;
