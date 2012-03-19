@@ -54,7 +54,13 @@ class PropelServiceProvider implements ServiceProviderInterface
         if (isset($app['propel.internal_autoload']) && true === $app['propel.internal_autoload']) {
             set_include_path($modelPath.PATH_SEPARATOR.get_include_path());
         } else {
-            $app['autoloader']->registerNamespace('model', $modelPath);
+            //model namespaces are subdir of $modelPath directory
+            $dir = new \DirectoryIterator($modelPath);
+            foreach ($dir as $fileInfo) {
+                if ($fileInfo->isDir()) {
+                    $app['autoloader']->registerNamespace($fileInfo->getFilename(), $modelPath);
+                }
+            }
         }
 
         if (!class_exists('Propel')) {
