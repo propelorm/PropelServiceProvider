@@ -15,8 +15,8 @@
     }
     ],
     "require": {
-        "silex/silex": ">=1.0.0-dev",
-        "propel/propel1": "dev-master"
+        "silex/silex": "1.0.*",
+        "propel/propel1": "1.6.*"
     },
     "autoload": {
         "psr-0": { "Propel\\Silex": "src" }
