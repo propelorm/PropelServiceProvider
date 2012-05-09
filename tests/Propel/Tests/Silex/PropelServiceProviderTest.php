@@ -23,15 +23,15 @@ class PropelServiceProviderTest extends \PHPUnit_Framework_TestCase
     public function setUp()
     {
         if (!class_exists('\Propel')) {
-            $this->markTestSkipped('The Propel submodule is not installed.');
+            $this->markTestSkipped('Propel has to be installed.');
         }
     }
-    
+
     public function testRegisterWithProperties()
     {
         $app = new Application();
         $app->register(new PropelServiceProvider(), array(
-            'propel.path'           => __DIR__ . '/../../../../vendor/propel/runtime/lib',
+            'propel.path'           => __DIR__ . '/../../../../vendor/propel/propel1/runtime/lib',
             'propel.config_file'    => __DIR__ . '/PropelFixtures/FixtFull/build/conf/myproject-conf.php',
             'propel.model_path'     => __DIR__ . '/PropelFixtures/FixtFull/build/classes',
         ));
@@ -46,7 +46,9 @@ class PropelServiceProviderTest extends \PHPUnit_Framework_TestCase
         chdir(__DIR__.'/PropelFixtures/FixtFull');
 
         $app = new Application();
-        $app->register(new PropelServiceProvider());
+        $app->register(new PropelServiceProvider(), array(
+            'propel.path'           => __DIR__ . '/../../../../vendor/propel/propel1/runtime/lib',
+        ));
 
         $this->assertTrue(class_exists('Propel'));
 
@@ -57,7 +59,7 @@ class PropelServiceProviderTest extends \PHPUnit_Framework_TestCase
     {
         $app = new Application();
         $app->register(new PropelServiceProvider(), array(
-            'propel.path'               => __DIR__.'/../../../../vendor/propel/runtime/lib',
+            'propel.path'               => __DIR__.'/../../../../vendor/propel/propel1/runtime/lib',
             'propel.config_file'        => __DIR__.'/PropelFixtures/FixtFull/build/conf/myproject-conf.php',
             'propel.model_path'         => __DIR__.'/PropelFixtures/FixtFull/build/classes',
             'propel.internal_autoload'  => true,
@@ -66,30 +68,20 @@ class PropelServiceProviderTest extends \PHPUnit_Framework_TestCase
         $this->assertTrue(class_exists('Propel'), 'Propel class does not exist.');
         $this->assertGreaterThan(strpos(get_include_path(), $app['propel.model_path']), 1);
     }
-    
+
     /**
      * @expectedException  InvalidArgumentException
-     * @expectedExceptionMessage  Propel\Silex\PropelServiceProvider: please, initialize the "propel.model_path" parameter (did you already generate your model?)
-     */
-    public function testModelPathPropertyNotInitialized()
-    {
-        $app = new Application();
-        $app->register(new PropelServiceProvider());
-    }
-    
-    /**
-     * @expectedException  InvalidArgumentException
-     * @expectedExceptionMessage  Propel\Silex\PropelServiceProvider: please, initialize the "propel.config_file" parameter.
+     * @expectedExceptionMessage  Please, initialize the "propel.config_file" parameter.
      */
     public function testConfigFilePropertyNotInitialized()
     {
         $app = new Application();
         $app->register(new PropelServiceProvider(), array(
-            'propel.path'               => __DIR__.'/../../../../vendor/propel/runtime/lib',
+            'propel.path'               => __DIR__.'/../../../../vendor/propel/propel1/runtime/lib',
             'propel.model_path'         => __DIR__.'/PropelFixtures/FixtFull/build/classes',
         ));
     }
-    
+
     public function testWrongConfigFile()
     {
         $current = getcwd();
@@ -98,7 +90,7 @@ class PropelServiceProviderTest extends \PHPUnit_Framework_TestCase
             chdir(__DIR__.'/PropelFixtures/FixtEmpty');
             $app = new Application();
             $app->register(new PropelServiceProvider(), array(
-                'propel.path'               => __DIR__.'/../../../../vendor/propel/runtime/lib',
+                'propel.path'               => __DIR__.'/../../../../vendor/propel/propel1/runtime/lib',
                 'propel.model_path'         => __DIR__.'/PropelFixtures/FixtFull/build/classes',
             ));
         }
@@ -107,11 +99,11 @@ class PropelServiceProviderTest extends \PHPUnit_Framework_TestCase
             chdir($current);
             return;
         }
-        
+
         chdir($current);
         $this->failed('An expected InvalidArgumentException has not been raised');
     }
-    
+
     /**
      * @expectedException  InvalidArgumentException
      */
@@ -119,10 +111,10 @@ class PropelServiceProviderTest extends \PHPUnit_Framework_TestCase
     {
         $app = new Application();
         $app->register(new PropelServiceProvider(), array(
-            'propel.path'               => __DIR__.'/../../../../vendor/propel/runtime/lib',
+            'propel.path'               => __DIR__.'/../../../../vendor/propel/propel1/runtime/lib',
             'propel.model_path'         => __DIR__.'/PropelFixtures/FixtEmpty/build/classes',
             'propel.config_file'        => __DIR__.'/PropelFixtures/FixtFull/build/conf/myproject-conf.php',
         ));
     }
-    
+
 }

@@ -11,7 +11,7 @@ Parameters
 * **propel.path** (optional): The path in wich Propel.php will be found. Usually, for
   PEAR installation, it is `propel` while for Git installation it is
   `vendor/propel/runtime/lib`.
-  Default is `/full/project/path/vendor/propel/runtime/lib`.
+  Default is `/full/project/path/vendor/propel/propel1/runtime/lib`.
 
 * **propel.config_file** (optional): The name of Propel configuration file with full path.
   Default is `/full/project/path/build/conf/projectname-conf.php`
