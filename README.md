@@ -19,10 +19,6 @@ Parameters
 * **propel.model_path** (optional): Path to where model classes are located.
   Default is `/full/project/path/build/classes`
 
-* **propel.internal_autoload** (optional): Setting to true, forces Propel to use
-  its own internal autoloader, instead of Silex one, to load model classes.
-  Default is `false`
-
 
 > It's strongly recommanded to use **absolute paths** for previous options.
 
@@ -45,10 +41,6 @@ For more informations consult the [Propel documentation](http://www.propelorm.or
 
 ``` php
 <?php
-
-$app['autoloader']->registerNamespaces(array(
-    'Propel\Silex'  => __DIR__ . '/../../vendor/propel/propel-service-provider/src',
-));
 
 $app->register(new Propel\Silex\PropelServiceProvider(), array(
     'propel.path'        => __DIR__.'/path/to/Propel.php',
