@@ -26,14 +26,7 @@ class PropelServiceProvider implements ServiceProviderInterface
             require_once $this->guessPropel($app);
         }
 
-        $modelPath = null;
-        if (isset($app['propel.model_path'])) {
-            $modelPath = $app['propel.model_path'];
-
-            if (!is_dir($modelPath)) {
-                throw new \InvalidArgumentException('The given "propel.model_path" is not found.');
-            }
-        }
+        $modelPath = $this->guessModelPath($app);
 
         if (isset($app['propel.config_file'])) {
             $config = $app['propel.config_file'];
@@ -41,35 +34,8 @@ class PropelServiceProvider implements ServiceProviderInterface
             $config = $this->guessConfigFile();
         }
 
-        if (null !== $modelPath) {
-            if (isset($app['propel.internal_autoload']) && true === $app['propel.internal_autoload']) {
-                set_include_path($modelPath . PATH_SEPARATOR . get_include_path());
-            } else {
-                //model namespaces are subdir of $modelPath directory
-                $dir = new \DirectoryIterator($modelPath);
-
-                //Unfortunately DirectoryIterator count() method is not always implemented, so we need a boolean
-                //to check if $modelPath dir has at least one subdir, otherwise te model has not yet been generated or
-                //$modelPath contains a wrong value.
-                $built = false;
-                foreach ($dir as $fileInfo) {
-                    if ($fileInfo->isDir()) {
-                        if (!$fileInfo->isDot()) {
-                            $built = true;
-                            $app['autoloader']->registerNamespace($fileInfo->getFilename(), $modelPath);
-                        }
-                    }
-                }
-
-                if (!$built) {
-                    throw new \InvalidArgumentException(
-                        'The '.$modelPath.' has no subdir. May be "propel.model_path" value is wrong or you didn\'t yet generate your model.'
-                    );
-                }
-            }
-        }
-
         \Propel::init($config);
+        set_include_path($modelPath . PATH_SEPARATOR . get_include_path());
     }
 
     protected function guessConfigFile()
@@ -95,7 +61,7 @@ class PropelServiceProvider implements ServiceProviderInterface
         return $config;
     }
 
-    public function guessPropel(Application $app)
+    protected  function guessPropel(Application $app)
     {
         if (isset($app['propel.path'])) {
             $propel = $app['propel.path'] . '/Propel.php';
@@ -110,5 +76,25 @@ class PropelServiceProvider implements ServiceProviderInterface
         }
 
         return $propel;
+    }
+
+    protected function guessModelPath(Application $app)
+    {
+        if (isset($app['propel.model_path'])) {
+            $modelPath = $app['propel.model_path'];
+        } else {
+            $modelPath = './build/classes';
+        }
+
+        if (!is_dir($modelPath)) {
+            throw new \InvalidArgumentException('The given "propel.model_path" is not found.');
+        }
+
+        return $modelPath;
+    }
+
+    public function boot(Application $a)
+    {
+
     }
 }

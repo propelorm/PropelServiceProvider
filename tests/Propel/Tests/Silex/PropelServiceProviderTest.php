@@ -36,8 +36,8 @@ class PropelServiceProviderTest extends \PHPUnit_Framework_TestCase
             'propel.model_path'     => __DIR__ . '/PropelFixtures/FixtFull/build/classes',
         ));
 
-        $this->assertTrue(class_exists('Propel'));
-
+        $this->assertTrue(class_exists('Propel'), 'Propel class does not exist.');
+        $this->assertGreaterThan(strpos(get_include_path(), $app['propel.model_path']), 1);
     }
 
     public function testRegisterDefaults()
@@ -50,28 +50,15 @@ class PropelServiceProviderTest extends \PHPUnit_Framework_TestCase
             'propel.path'           => __DIR__ . '/../../../../vendor/propel/propel1/runtime/lib',
         ));
 
-        $this->assertTrue(class_exists('Propel'));
+        $this->assertTrue(class_exists('Propel'), 'Propel class does not exist.');
+        $this->assertGreaterThan(strpos(get_include_path(), './build/classes'), 1);
 
         chdir($current);
     }
 
-    public function testRegisterInternalAutoload()
-    {
-        $app = new Application();
-        $app->register(new PropelServiceProvider(), array(
-            'propel.path'               => __DIR__.'/../../../../vendor/propel/propel1/runtime/lib',
-            'propel.config_file'        => __DIR__.'/PropelFixtures/FixtFull/build/conf/myproject-conf.php',
-            'propel.model_path'         => __DIR__.'/PropelFixtures/FixtFull/build/classes',
-            'propel.internal_autoload'  => true,
-        ));
-
-        $this->assertTrue(class_exists('Propel'), 'Propel class does not exist.');
-        $this->assertGreaterThan(strpos(get_include_path(), $app['propel.model_path']), 1);
-    }
-
     /**
      * @expectedException  InvalidArgumentException
-     * @expectedExceptionMessage  Please, initialize the "propel.config_file" parameter.
+     * @expectedExceptionMessage  Unable to guess the config file. Please, initialize the "propel.config_file" parameter.
      */
     public function testConfigFilePropertyNotInitialized()
     {
@@ -106,14 +93,15 @@ class PropelServiceProviderTest extends \PHPUnit_Framework_TestCase
 
     /**
      * @expectedException  InvalidArgumentException
+     * @expectedExceptionMessage  The given "propel.model_path" is not found.
      */
-    public function testNoNamespace()
+    public function testWrongModelPath()
     {
         $app = new Application();
         $app->register(new PropelServiceProvider(), array(
-            'propel.path'               => __DIR__.'/../../../../vendor/propel/propel1/runtime/lib',
-            'propel.model_path'         => __DIR__.'/PropelFixtures/FixtEmpty/build/classes',
-            'propel.config_file'        => __DIR__.'/PropelFixtures/FixtFull/build/conf/myproject-conf.php',
+            'propel.path'           => __DIR__ . '/../../../../vendor/propel/propel1/runtime/lib',
+            'propel.config_file'    => __DIR__ . '/PropelFixtures/FixtFull/build/conf/myproject-conf.php',
+            'propel.model_path'     => __DIR__ . '/wrongDir/build/classes',
         ));
     }
 
