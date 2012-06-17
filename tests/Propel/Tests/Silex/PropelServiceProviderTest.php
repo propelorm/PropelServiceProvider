@@ -67,28 +67,7 @@ class PropelServiceProviderTest extends \PHPUnit_Framework_TestCase
             'propel.path'               => __DIR__.'/../../../../vendor/propel/propel1/runtime/lib',
             'propel.model_path'         => __DIR__.'/PropelFixtures/FixtFull/build/classes',
         ));
-    }
-
-    public function testWrongConfigFile()
-    {
-        $current = getcwd();
-        try
-        {
-            chdir(__DIR__.'/PropelFixtures/FixtEmpty');
-            $app = new Application();
-            $app->register(new PropelServiceProvider(), array(
-                'propel.path'               => __DIR__.'/../../../../vendor/propel/propel1/runtime/lib',
-                'propel.model_path'         => __DIR__.'/PropelFixtures/FixtFull/build/classes',
-            ));
-        }
-        catch(\InvalidArgumentException $e)
-        {
-            chdir($current);
-            return;
-        }
-
-        chdir($current);
-        $this->failed('An expected InvalidArgumentException has not been raised');
+        $app->boot();
     }
 
     /**
@@ -103,6 +82,26 @@ class PropelServiceProviderTest extends \PHPUnit_Framework_TestCase
             'propel.config_file'    => __DIR__ . '/PropelFixtures/FixtFull/build/conf/myproject-conf.php',
             'propel.model_path'     => __DIR__ . '/wrongDir/build/classes',
         ));
+        $app->boot();
     }
 
+    public function testWrongConfigFile()
+    {
+        $current = getcwd();
+        chdir(__DIR__.'/PropelFixtures/FixtEmpty');
+        $app = new Application();
+        $app->register(new PropelServiceProvider(), array(
+            'propel.path'               => __DIR__.'/../../../../vendor/propel/propel1/runtime/lib',
+            'propel.model_path'         => __DIR__.'/PropelFixtures/FixtFull/build/classes',
+        ));
+
+        try {
+            $app->boot();
+            $this->fail('An expected InvalidArgumentException has not been raised');
+        } catch(\InvalidArgumentException $e) {
+            $this->assertTrue(true);
+        }
+
+        chdir($current);
+    }
 }

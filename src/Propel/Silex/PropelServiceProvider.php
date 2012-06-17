@@ -22,43 +22,19 @@ class PropelServiceProvider implements ServiceProviderInterface
 {
     public function register(Application $app)
     {
+    }
+
+    public function boot(Application $app)
+    {
         if (!class_exists('Propel')) {
             require_once $this->guessPropel($app);
         }
 
         $modelPath = $this->guessModelPath($app);
-
-        if (isset($app['propel.config_file'])) {
-            $config = $app['propel.config_file'];
-        } else {
-            $config = $this->guessConfigFile();
-        }
+        $config    = $this->guessConfigFile($app);
 
         \Propel::init($config);
         set_include_path($modelPath . PATH_SEPARATOR . get_include_path());
-    }
-
-    protected function guessConfigFile()
-    {
-        $currentDir = getcwd();
-
-        if (!@chdir(realpath('./build/conf'))) {
-            throw new \InvalidArgumentException('Unable to guess the config file. Please, initialize the "propel.config_file" parameter.');
-        }
-
-        $files = glob('classmap*.php');
-        if (false === $files || 0 >= count($files)) {
-            throw new \InvalidArgumentException('Unable to guess the config file. Please, initialize the "propel.config_file" parameter.');
-        }
-
-        $config = './build/conf/'.substr(strstr($files[0], '-'), 1);
-        chdir($currentDir);
-
-        if (!is_file($config)) {
-            throw new \InvalidArgumentException('Unable to guess the config file. Please, initialize the "propel.config_file" parameter.');
-        }
-
-        return $config;
     }
 
     protected  function guessPropel(Application $app)
@@ -93,8 +69,35 @@ class PropelServiceProvider implements ServiceProviderInterface
         return $modelPath;
     }
 
-    public function boot(Application $a)
+    protected function guessConfigFile(Application $app)
     {
+        if (isset($app['propel.config_file'])) {
+            $config = $app['propel.config_file'];
+        } else {
+            $currentDir = getcwd();
+            if (!@chdir(realpath('./build/conf'))) {
+                throw new \InvalidArgumentException(
+                    'Unable to guess the config file. Please, initialize the "propel.config_file" parameter.'
+                );
+            }
 
+            $files = glob('classmap*.php');
+            if (false === $files || 0 >= count($files)) {
+                throw new \InvalidArgumentException(
+                    'Unable to guess the config file. Please, initialize the "propel.config_file" parameter.'
+                );
+            }
+
+            $config = './build/conf/'.substr(strstr($files[0], '-'), 1);
+            chdir($currentDir);
+        }
+
+        if (!is_file($config)) {
+            throw new \InvalidArgumentException(
+                'Unable to guess the config file. Please, initialize the "propel.config_file" parameter.'
+            );
+        }
+
+        return $config;
     }
 }
