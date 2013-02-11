@@ -20,11 +20,23 @@ use Silex\ServiceProviderInterface;
  */
 class PropelServiceProvider implements ServiceProviderInterface
 {
+    protected $alreadyInit = false;
+
     public function register(Application $app)
     {
+        if (isset($app['propel.model_path']) && isset($app['propel.config_file'])) {
+            $this->initPropel($app);
+        }
     }
 
     public function boot(Application $app)
+    {
+        if (!$this->alreadyInit) {
+            $this->initPropel($app);
+        }
+    }
+
+    protected function initPropel(Application $app)
     {
         if (!class_exists('Propel')) {
             require_once $this->guessPropel($app);
@@ -35,6 +47,8 @@ class PropelServiceProvider implements ServiceProviderInterface
 
         \Propel::init($config);
         set_include_path($modelPath . PATH_SEPARATOR . get_include_path());
+
+        $this->alreadyInit = true;
     }
 
     protected  function guessPropel(Application $app)
