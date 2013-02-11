@@ -18,6 +18,7 @@
         "silex/silex": "1.0.*",
         "propel/propel1": "1.6.*"
     },
+    "minimum-stability": "dev",
     "autoload": {
         "psr-0": { "Propel\\Silex": "src" }
     }

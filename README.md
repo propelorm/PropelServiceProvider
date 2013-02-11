@@ -42,11 +42,9 @@ For more informations consult the [Propel documentation](http://www.propelorm.or
 ``` php
 <?php
 
-$app->register(new Propel\Silex\PropelServiceProvider(), array(
-    'propel.path'        => __DIR__.'/path/to/Propel.php',
-    'propel.config_file' => __DIR__.'/path/to/myproject-conf.php',
-    'propel.model_path'  => __DIR__.'/path/to/model/classes',
-));
+$app['propel.config_file'] = __DIR__.'/path/to/myproject-conf.php';
+$app['propel.model_path'] = __DIR__.'/path/to/model/classes';
+$app->register(new Propel\Silex\PropelServiceProvider());
 ```
 
 Alternatively, if you 've installed Propel by Git in `vendor/propel` and
