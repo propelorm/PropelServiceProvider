@@ -3,7 +3,27 @@ PropelServiceProvider
 
 [![Build Status](https://secure.travis-ci.org/propelorm/PropelServiceProvider.png?branch=master)](http://travis-ci.org/propelorm/PropelServiceProvider)
 
-The *PropelServiceProvider* provides integration with [Propel](http://www.propelorm.org).
+The *PropelServiceProvider* provides a Silex integration with [Propel](http://www.propelorm.org).
+
+Set up
+------
+
+If you want to use *PropelServiceProvider*, you will need:
+
+  * Silex 1.x
+  * PHP 5.4 or greater
+  * Composer
+
+To setup the project in your Silex application, you have to rely on composer ;
+just add the following to your `composer.json` file:
+
+~~~json
+"require": {
+    "propel/propel-service-provider": "dev-master"
+}
+~~~
+
+Then run `php composer.phar install` to install it!
 
 Parameters
 ----------
