@@ -10,6 +10,7 @@
 
 namespace Propel\Silex;
 
+use Propel\Runtime;
 use Silex\Application;
 use Silex\ServiceProviderInterface;
 
@@ -45,7 +46,7 @@ class PropelServiceProvider implements ServiceProviderInterface
         $modelPath = $this->guessModelPath($app);
         $config    = $this->guessConfigFile($app);
 
-        \Propel::init($config);
+        Propel::init($config);
         set_include_path($modelPath . PATH_SEPARATOR . get_include_path());
 
         $this->alreadyInit = true;
@@ -56,8 +57,8 @@ class PropelServiceProvider implements ServiceProviderInterface
         if (isset($app['propel.path'])) {
             $propel = $app['propel.path'] . '/Propel.php';
         } else {
-            if (!is_file($propel = realpath('./vendor/propel/propel1/runtime/lib/Propel.php'))) {
-                $propel = realpath('./../vendor/propel/propel1/runtime/lib/Propel.php');
+            if (!is_file($propel = realpath('./vendor/propel/propel/src/Propel/Runtime/Propel.php'))) {
+                $propel = realpath('./../vendor/propel/propel/src/Propel/Runtime/Propel.php');
             }
         }
 
@@ -73,7 +74,7 @@ class PropelServiceProvider implements ServiceProviderInterface
         if (isset($app['propel.model_path'])) {
             $modelPath = $app['propel.model_path'];
         } else {
-            $modelPath = './build/classes';
+            $modelPath = './generated-classes';
         }
 
         if (!is_dir($modelPath)) {
@@ -89,7 +90,7 @@ class PropelServiceProvider implements ServiceProviderInterface
             $config = $app['propel.config_file'];
         } else {
             $currentDir = getcwd();
-            if (!@chdir(realpath('./build/conf'))) {
+            if (!@chdir(realpath('./generated-conf'))) {
                 throw new \InvalidArgumentException(
                     'Unable to guess the config file. Please, initialize the "propel.config_file" parameter.'
                 );

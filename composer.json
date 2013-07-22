@@ -15,8 +15,12 @@
     }
     ],
     "require": {
-        "silex/silex": "1.0.*",
-        "propel/propel1": "1.6.*"
+        "php": ">=5.4",
+        "silex/silex": "~1.0",
+        "propel/propel": "2.0.0-alpha1"
+    },
+    "require-dev": {
+        "phpunit/phpunit": "3.7.*"
     },
     "minimum-stability": "dev",
     "autoload": {
