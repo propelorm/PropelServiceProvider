@@ -1,0 +1,27 @@
+{
+    "name": "propel/propel-service-provider",
+    "type": "library",
+    "description": "Propel integration for Silex.",
+    "keywords": ["silex", "propel"],
+    "license": "MIT",
+    "authors": [
+    {
+        "name": "William Durand",
+        "email": "william.durand1@gmail.com"
+    },
+    {
+        "name": "Cristiano Cinotti",
+        "email": "cristianocinotti@gmail.com"
+    }
+    ],
+    "require": {
+        "silex/silex": "~1.0",
+        "propel/propel": "dev-master"
+    },
+    "require-dev": {
+        "phpunit/phpunit": "3.7.*"
+    },
+    "autoload": {
+        "psr-0": { "Propel\\Silex": "src" }
+    }
+}
