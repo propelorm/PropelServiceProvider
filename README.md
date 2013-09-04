@@ -1,9 +1,38 @@
 PropelServiceProvider
 =====================
 
-[![Build Status](https://secure.travis-ci.org/propelorm/PropelServiceProvider.png?branch=master)](http://travis-ci.org/propelorm/PropelServiceProvider)
+[![Build Status](https://secure.travis-ci.org/propelorm/PropelServiceProvider.png?branch=1.x)](http://travis-ci.org/propelorm/PropelServiceProvider)
 
-The *PropelServiceProvider* provides integration with [Propel](http://www.propelorm.org).
+The *PropelServiceProvider* provides a Silex integration with [Propel](http://www.propelorm.org).
+
+Branching model
+---------------
+
+* The `1.x` branch contains Propel *1.6* integration.
+* The `2.x` branch contains *Propel2* integration.
+
+**Note:** the following instructions are relative to PropelServiceProvider used with Propel 1 (branch 1.x).
+For PropelServiceProvider used with Propel2, please switch to branch 2.x.
+
+Set up
+------
+
+If you want to use *PropelServiceProvider*, you will need:
+
+  * Silex 1.x
+  * PHP 5.4 or greater
+  * Composer
+
+To setup the project in your Silex application, you have to rely on composer ;
+just add the following to your `composer.json` file:
+
+``` json
+"require": {
+    "propel/propel-service-provider": "1.x"
+}
+```
+
+Then run `php composer.phar install` to install it!
 
 Parameters
 ----------
@@ -28,7 +57,7 @@ Services
 
 No service is provided.
 
-Propel configures and manages itself by **using** static methods, so no service is registered into Application.
+Propel configures and manages itself by using **static methods**, so no service is registered into Application.
 Actually, the PropelServiceProvider class initializes Propel in a more "Silex-ian" way.
 
 
