@@ -11,6 +11,9 @@ Branching model
 * The `1.x` branch contains Propel *1.6* integration.
 * The `2.x` branch contains *Propel2* integration.
 
+**Note:** the following instructions are relative to PropelServiceProvider used with Propel2 (branch 2.x).
+For PropelServiceProvider used with Propel 1, please switch to branch 1.x.
+
 Set up
 ------
 
@@ -23,11 +26,11 @@ If you want to use *PropelServiceProvider*, you will need:
 To setup the project in your Silex application, you have to rely on composer ;
 just add the following to your `composer.json` file:
 
-~~~json
+``` json
 "require": {
     "propel/propel-service-provider": "2.x"
 }
-~~~
+```
 
 Then register you model namespace in Composer autoload:
 
@@ -59,7 +62,7 @@ Services
 
 No service is provided.
 
-Propel configures and manages itself by **using** static methods and its own service container, so no service is registered into Application.
+Propel configures and manages itself by using **static** methods and its own service container, so no service is registered into Application.
 Actually, the PropelServiceProvider class initializes Propel in a more "Silex-ian" way.
 
 
