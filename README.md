@@ -8,7 +8,7 @@ The *PropelServiceProvider* provides integration with [Propel](http://www.propel
 Parameters
 ----------
 
-* **propel.path** (optional): The path in wich Propel.php will be found. Usually, for
+* **propel.path** (optional): The path in which Propel.php will be found. Usually, for
   PEAR installation, it is `propel` while for Git installation it is
   `vendor/propel/runtime/lib`.
   Default is `/full/project/path/vendor/propel/propel1/runtime/lib`.
