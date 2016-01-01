@@ -23,7 +23,7 @@ use Silex\Application;
   * @author Cristiano Cinotti <cristianocinotti@gmail.com>
   * @author Rafael Nery <rafael@nery.info>
   */
-class Propel implements ServiceProviderInterface, BootableProviderInterface
+class PropelServiceProvider implements ServiceProviderInterface, BootableProviderInterface
 {
 
     /**
