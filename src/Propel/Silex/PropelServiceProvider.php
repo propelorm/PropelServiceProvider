@@ -18,7 +18,7 @@ use Silex\Api\BootableProviderInterface;
 use Silex\Application;
 
  /**
-  * Propel2 service provider.
+  * Propel2 service provider for Silex2.
   *
   * @author Cristiano Cinotti <cristianocinotti@gmail.com>
   * @author Rafael Nery <rafael@nery.info>
