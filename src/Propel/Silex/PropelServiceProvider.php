@@ -1,5 +1,4 @@
 <?php
-
 /**
  * This file is part of the PropelServiceProvider package.
  * For the full copyright and license information, please view the LICENSE
@@ -10,33 +9,53 @@
 
 namespace Propel\Silex;
 
-use Propel\Runtime\Propel;
-use Silex\Application;
-use Silex\ServiceProviderInterface;
+use Pimple\Container;
+use Pimple\ServiceProviderInterface;
 
-/**
- * Propel2 service provider.
- *
- * @author Cristiano Cinotti <cristianocinotti@gmail.com>
- */
-class PropelServiceProvider implements ServiceProviderInterface
+use Propel\Runtime\Propel as Propel2;
+
+use Silex\Api\BootableProviderInterface;
+use Silex\Application;
+
+ /**
+  * Propel2 service provider for Silex2.
+  *
+  * @author Cristiano Cinotti <cristianocinotti@gmail.com>
+  * @author Rafael Nery <rafael@nery.info>
+  */
+class PropelServiceProvider implements ServiceProviderInterface, BootableProviderInterface
 {
 
-    public function register(Application $app)
+    /**
+     *  Method for register
+     *
+     *  @method  register
+     *  @param   Container  $app
+     *  @return  void
+     */
+    public function register(Container $app)
     {
+
         if (!class_exists('Propel\\Runtime\\Propel', true)) {
-            throw new \InvalidArgumentException('Unable to find Propel, did you install it?');
+            throw new \InvalidArgumentException('Propel not found, did you install it?');
         }
 
         $app['propel.config_file'] = './generated-conf/config.php';
     }
 
-    public function boot(Application $app)
-    {
+    /**
+     *  Bootable Method
+     *
+     *  @method  boot
+     *  @param   Application  $app
+     *  @return  void
+     */
+    public function boot(Application $app)  {
+
         if (!file_exists($app['propel.config_file'])) {
             throw new \InvalidArgumentException('Unable to guess Propel config file. Please, initialize the "propel.config_file" parameter.');
         }
 
-        Propel::init($app['propel.config_file']);
+        Propel2::init($app['propel.config_file']);
     }
 }
